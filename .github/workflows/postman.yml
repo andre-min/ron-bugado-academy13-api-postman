@@ -54,7 +54,7 @@ jobs:
       id-token: write
     environment:
       name: github-pages
-      url: https://github.com/andre-min/ron-bugado-academy13-api-postman/Report.html
+      url: andre-min.github.io/ron-bugado-academy13-api-postman/report.html
     steps:
       - name: Setup Pages
         uses: actions/configure-pages@v5
