@@ -52,7 +52,7 @@ jobs:
       id-token: write
     environment:
       name: github-pages
-      url: https://clestonv.github.io/Testes-de-API-com-Postman-qualitys-hunters-academy-api-postman/Report.html
+      url: https://github.com/andre-min/ron-bugado-academy13-api-postman/Report.html
     steps:
       - name: Setup Pages
         uses: actions/configure-pages@v5
