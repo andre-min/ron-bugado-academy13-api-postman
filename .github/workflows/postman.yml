@@ -1,41 +1,44 @@
 name: Testes API Postman
 
 on: [push, workflow_dispatch]
-
+  
 jobs:
 
+ 
   test:
     name: Testes API
     runs-on: ubuntu-latest
     steps:
-      - name: Copiando os arquivos para máquina virtual
+      
+      - name: Copiando os arquivos para maquina virtual
         uses: actions/checkout@v4
 
+      # Runs a set of commands using the runners shell
       - name: Etapa 01 - Verificação versão do Node e Newman
         run: |
           newman --version && node --version && ls
-
-      - name: Etapa 02 - Instalação do Html Extra Reporter
+              
+      # Runs a single command using the runners shell
+      - name: Etapa 02 - Html Extra Reporter
         run: |
+          npm fund
           npm install -g newman
-          sudo npm install -g newman-reporter-htmlextra
+          sudo npm install -g newman-reporter-htmlextra        
 
+      # Runs a set of command using the runners shell
       - name: Etapa 03 - Rodando as Collections de Testes
         run: |
+
           newman run "Ron_Bugado.postman_collection.json" -e "Dev-ronbugado.postman_environment.json" --delay-request 1 -r htmlextra --reporter-htmlextra-export ./result/Report.html
 
-      - name: Etapa 04 - Organizando o relatório em subpasta
-        run: |
-          mkdir -p site/report
-          mv ./result/Report.html site/report/
-
-      - name: Etapa 05 - Salvando o Resultado dos Testes
+      # Runs a set of command using the runners shell
+      - name: Etapa 04 - Salvando o Resultado dos Testes
         uses: actions/upload-artifact@v4
         if: always()
         with:
           name: report
-          path: ./site/
-
+          path: ./result/
+             
   deploy:
     name: Deploy GitHub Pages 🌐
     runs-on: ubuntu-latest
@@ -48,7 +51,7 @@ jobs:
       id-token: write
     environment:
       name: github-pages
-      url: https://andre-min.github.io/ron-bugado-academy13-api-postman/report/Report.html
+      url: https://andre-min.github.io/ron-bugado-academy13-api-postman/Report.html
     steps:
       - name: Setup Pages
         uses: actions/configure-pages@v5
@@ -60,11 +63,11 @@ jobs:
         with: 
           name: report
 
-      - name: Upload artifact para GitHub Pages
+      - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./report/
+          path: ./
 
-      - name: Deploy to GitHub Pages
+      - name: Deploy to Github Pages
         id: deployment
         uses: actions/deploy-pages@v4
